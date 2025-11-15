@@ -1,0 +1,16 @@
+﻿fastapi
+uvicorn[standard]
+pydantic
+pandas
+scikit-learn
+joblib
+python-dotenv
+sqlmodel
+httpx
+numpy
+python-multipart
+streamlit
+plotly
+wordcloud
+matplotlib
+requests
