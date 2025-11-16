@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from components.api import api_call
 from components.charts import create_geo_chart
+from components.charts import create_geo_map
 
 st.set_page_config(page_title="Análisis Geográfico", page_icon="🗺️")
 
@@ -9,6 +10,7 @@ st.header("🗺️ Análisis Geográfico de Menciones")
 st.markdown("Visualiza de dónde provienen las menciones geográficamente")
 
 top_n = st.slider("Mostrar top ubicaciones", 10, 100, 50, key="geo_top")
+
 
 data = api_call("/metrics/geo", params={"top": top_n})
 if data and data.get("geo"):
@@ -36,3 +38,12 @@ if data and data.get("geo"):
         st.metric("Menciones Top", df_display.iloc[0]["Menciones"])
 else:
     st.info("No hay datos geográficos disponibles")
+    
+st.subheader("🌍 Mapa geográfico de menciones")
+
+fig = create_geo_map(df_display)
+
+if fig:
+    st.plotly_chart(fig, use_container_width=True)
+else:
+    st.info("No se pudo generar el mapa. Asegúrate de que el CSV tenga columnas lat, lon, Ubicación y Menciones.")

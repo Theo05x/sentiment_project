@@ -19,6 +19,10 @@ def create_app():
     )
     app.include_router(api_router)
 
+    @app.get("/health")
+    def health():
+        return {"status": "ok"}
+
     @app.on_event("startup")
     async def _startup_event():
         logger = logging.getLogger("uvicorn")
@@ -28,8 +32,3 @@ def create_app():
 
 
 app = create_app()
-
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}

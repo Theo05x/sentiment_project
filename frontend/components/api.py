@@ -8,7 +8,6 @@ from typing import Optional, Dict, Any
 API_URL = "https://sentiment-project-0qyx.onrender.com/api/v1"  
 HEALTH_URL = "https://sentiment-project-0qyx.onrender.com/health"
 
-
 def check_backend_health() -> bool:
     try:
         response = requests.get(HEALTH_URL, timeout=5)
