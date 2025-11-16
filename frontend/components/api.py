@@ -5,12 +5,11 @@ import requests
 import streamlit as st
 from typing import Optional, Dict, Any
 
-API_URL = "https://sentiment-backend-xxxx.onrender.com/api/v1"  # Reemplaza xxxx con tu URL de Render
-HEALTH_URL = "https://sentiment-backend-xxxx.onrender.com/health"
+API_URL = "https://sentiment-project-0qyx.onrender.com/api/v1"  
+HEALTH_URL = "https://sentiment-project-0qyx.onrender.com/health"
 
 
 def check_backend_health() -> bool:
-    """Verifica si el backend está disponible"""
     try:
         response = requests.get(HEALTH_URL, timeout=5)
         return response.status_code == 200
@@ -19,16 +18,6 @@ def check_backend_health() -> bool:
 
 
 def api_call(endpoint: str, params: Optional[Dict[str, Any]] = None) -> Optional[Dict]:
-    """
-    Realiza llamada a la API y maneja errores
-    
-    Args:
-        endpoint: Ruta del endpoint (ej: "/metrics/summary")
-        params: Parámetros de query
-        
-    Returns:
-        Respuesta JSON o None si hay error
-    """
     try:
         url = f"{API_URL}{endpoint}"
         response = requests.get(url, params=params, timeout=10)
@@ -46,7 +35,6 @@ def api_call(endpoint: str, params: Optional[Dict[str, Any]] = None) -> Optional
 
 
 def predict_sentiment(text: str) -> Optional[Dict]:
-    """Predice sentimiento para un texto"""
     try:
         response = requests.post(f"{API_URL}/predict/predict", 
                                 json={"text": text}, 
@@ -59,7 +47,6 @@ def predict_sentiment(text: str) -> Optional[Dict]:
 
 
 def recompute_cache() -> bool:
-    """Limpia el caché del backend"""
     try:
         requests.post(f"{API_URL}/metrics/recompute", timeout=10)
         return True
@@ -68,7 +55,6 @@ def recompute_cache() -> bool:
 
 
 def ingest_csv(file) -> Optional[Dict]:
-    """Sube un archivo CSV al backend"""
     try:
         files = {"file": file}
         response = requests.post(f"{API_URL}/ingest/ingest_csv", files=files, timeout=30)
